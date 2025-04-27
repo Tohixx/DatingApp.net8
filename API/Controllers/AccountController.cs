@@ -12,30 +12,39 @@ namespace API.Controllers;
 
 public class AccountController(DataContext context, ITokenService tokenService) : BaseApiController
 {
-    [HttpPost("register")] // account/register
-
-    public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
-    {
-        if (await UserExists(registerDto.Username)) return BadRequest("Username is taken");
-
-        using var hmac = new HMACSHA512();
-
-        var user = new AppUser
+    [HttpPost("register")]
+        public async Task<ActionResult<UserDto>> Register(RegisterDto registerDto)
         {
-            UserName = registerDto.Username.ToLower(),
-            PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-            PasswordSalt = hmac.Key
-        };
-        
-        context.Users.Add(user);
-        await context.SaveChangesAsync();
+            if (!ModelState.IsValid)
+            {
+                foreach (var error in ModelState)
+                {
+                    Console.WriteLine($"{error.Key}: {string.Join(", ", error.Value.Errors.Select(e => e.ErrorMessage))}");
+                }
+                return BadRequest(ModelState);
+            }
 
-        return new UserDto
-        {
-            Username = user.UserName,
-            Token = tokenService.CreateToken(user)
-        };
-    }
+            if (await UserExists(registerDto.Username)) 
+                return BadRequest("Username is taken");
+
+            using var hmac = new HMACSHA512();
+
+            var user = new AppUser
+            {
+                UserName = registerDto.Username.ToLower(),
+                PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+                PasswordSalt = hmac.Key
+            };
+
+            context.Users.Add(user);
+            await context.SaveChangesAsync();
+
+            return new UserDto
+            {
+                Username = user.UserName,
+                Token = tokenService.CreateToken(user)
+            };
+        }
 
     [HttpPost("login")]
     public async Task<ActionResult<UserDto>> Login(LoginDto loginDto)

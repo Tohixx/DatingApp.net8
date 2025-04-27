@@ -1,4 +1,7 @@
 {
 	"editor.autoClosingBrackets": "always",
-	"cSpell.words": ["toastr"]
+	"cSpell.words": [
+		"titlecase",
+		"toastr"
+	]
 }
