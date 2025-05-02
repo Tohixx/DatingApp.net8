@@ -15,4 +15,8 @@ public class Photo
 
     public string? PublicId { get; set; }
 
+    // Navigation Prop
+    public int AppUserId { get; set; }
+    public AppUser AppUser { get; set; } = null!;
+
 }
