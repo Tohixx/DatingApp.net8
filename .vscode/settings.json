@@ -1,6 +1,7 @@
 {
 	"editor.autoClosingBrackets": "always",
 	"cSpell.words": [
+		"tabset",
 		"titlecase",
 		"toastr"
 	]
