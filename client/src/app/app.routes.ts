@@ -8,6 +8,7 @@ import { TestErrorsComponent } from './errors/test-errors/test-errors.component'
 import { NotFoundComponent } from './errors/not-found/not-found.component';
 import { ServerErrorComponent } from './errors/server-error/server-error.component';
 import { MemberDetailComponent } from './members/member-detail/member-detail.component';
+import { MemberEditComponent } from './members/member-edit/member-edit.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -16,14 +17,15 @@ export const routes: Routes = [
     runGuardsAndResolvers: 'always',
     canActivate: [authGuard],
     children: [
-      {path: 'members', component: MemberListComponent},
+      { path: 'members', component: MemberListComponent },
       { path: 'members/:username', component: MemberDetailComponent },
+      { path: 'member/edit', component: MemberEditComponent },
       { path: 'lists', component: ListsComponent },
       { path: 'messages', component: MessagesComponent },
     ],
   },
-  { path: 'errors', component: TestErrorsComponent},
-  { path: 'not-found', component: NotFoundComponent},
-  { path: 'server-error', component: ServerErrorComponent},
+  { path: 'errors', component: TestErrorsComponent },
+  { path: 'not-found', component: NotFoundComponent },
+  { path: 'server-error', component: ServerErrorComponent },
   { path: '**', component: HomeComponent, pathMatch: 'full' },
 ];
