@@ -2,6 +2,7 @@
 	"editor.autoClosingBrackets": "always",
 	"cSpell.words": [
 		"tabset",
+		"timeago",
 		"titlecase",
 		"toastr"
 	]
